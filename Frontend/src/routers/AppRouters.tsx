@@ -3,7 +3,7 @@ import HomePage from "../pages/Home"
 import TestPage from "../pages/TestPage"
 
 function AppRouters(){
-    return(
+    return(       
         <Routes>
             <Route path="/" element = {<HomePage/>}/>
             <Route path="/teste" element = {<TestPage/>}/>
