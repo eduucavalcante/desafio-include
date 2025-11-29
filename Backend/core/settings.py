@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # Apps do sistema
     'accounts',
     'services',
+    'authentication',
 ]
 
 MIDDLEWARE = [
