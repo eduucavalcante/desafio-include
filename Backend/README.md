@@ -9,6 +9,8 @@ Ela fornece endpoints para dados dinâmicos que serão consumidos pelo site e ta
 
 Siga os passos abaixo para configurar seu ambiente local.
 
+_Obs.: Python e MySQL devem estar instalados na máquina._
+
 ---
 
 ## 1️⃣ Clonar o repositório
@@ -57,15 +59,24 @@ pip install -r requirements.txt
 Crie um arquivo `.env` na pasta **Backend/**:
 
 ```dotenv
-DEBUG=True
-SECRET_KEY=sua_chave_aqui
-
 # Configurações para MySQL (atualizar quando migrar)
 MYSQL_DATABASE=nome_do_banco
 MYSQL_USER=root
 MYSQL_PASSWORD=senha
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
+
+# Seeding admin
+ADMIN_NAME=Administrador
+ADMIN_EMAIL=email@exemplo.com
+ADMIN_PASSWORD=senha
+ADMIN_ROLE=DIRETORIA
+ADMIN_PERMISSION=ADMIN
+
+# Setup para armazenamento de imagens
+CLOUDINARY_CLOUD_NAME=nome_da_cloud
+CLOUDINARY_API_KEY=api_key
+CLOUDINARY_API_SECRET=api_secret
 ```
 
 > As credenciais **nunca** devem ser commitadas — por isso o arquivo `.env` está no `.gitignore`.
@@ -75,6 +86,7 @@ MYSQL_PORT=3306
 ## 5️⃣ Rodar migrações
 
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
@@ -97,7 +109,8 @@ A API estará disponível em:
 ```txt
 Backend/
 ├── core/              # Projeto Django (settings, urls, wsgi)
-├── apps/              # Apps internos (a criar)
+├── accounts/          # App com models e views de usuários
+├── services/          # App com models e views de serviços
 ├── manage.py
 ├── requirements.txt
 ├── .gitignore
