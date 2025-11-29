@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,10 +7,23 @@ from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from .serializers import AuthSerializer, AuthResponseSerializer
 
 User = get_user_model()
 
+@extend_schema(tags=['Autenticação'])
 class LoginView(APIView):
+
+    @extend_schema(
+        tags=['Autenticação'],
+        request=AuthSerializer,
+        responses={
+            200: AuthResponseSerializer,
+            400: 'Bad Request - Email ou senha ausentes / Formato de email inválido',
+            401: 'Unauthorized - Senha incorreta',
+            500: 'Erro interno do servidor'
+        }
+    )
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")

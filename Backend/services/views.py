@@ -11,6 +11,13 @@ import cloudinary.uploader
 class ServiceView(APIView):
     permission_classes = [IsAdmin]
 
+    @extend_schema(
+        tags=['Serviços'],
+        responses={
+            200: ServiceSerializer(many=True),
+            404: 'Ainda não há serviços cadastrados'
+        }
+    )
     def get(self, request):
         try:
             services = Service.objects.all()
@@ -27,6 +34,17 @@ class ServiceView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
+    @extend_schema(
+        tags=['Serviços'],
+        request=ServiceSerializer,
+        responses={
+            200: ServiceSerializer,
+            400: 'Bad Request - Dados inválidos ou campo obrigatório não preenchido.',
+            401: 'Unauthorized - Usuário não autenticado',
+            403: 'Forbidden - Usuário não possui permissão',
+            500: 'Erro interno do servidor',
+        }
+    )
     def post(self, request):
         try:
             data = request.data.copy()
