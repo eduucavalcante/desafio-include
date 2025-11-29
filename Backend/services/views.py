@@ -4,10 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Service
 from .serializers import ServiceSerializer
+from .permissions import IsAdmin
 import cloudinary.uploader
 
 @extend_schema(tags=['Serviços'])
 class ServiceView(APIView):
+    permission_classes = [IsAdmin]
 
     def get(self, request):
         try:

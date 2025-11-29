@@ -2,36 +2,66 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
+from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
+User = get_user_model()
 
 class LoginView(APIView):
     def post(self, request):
-        try:
-            # Exemplo: pegando o campo "email"
-            email = request.data.get("email")
-            senha = request.data.get("senha")
+        email = request.data.get("email")
+        password = request.data.get("password")
 
-            if not email or not senha:
-                # Erro inválido → 400
-                return Response(
-                    {"erro": "Email ou senha ausentes."},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            # Simulação de erro interno:
-            if email == "quebrar@erro.com":
-                raise Exception("Erro inesperado no servidor")
-
-            return Response({"mensagem": "Login bem-sucedido!"}, status=200)
-
-        except Http404:
-            # ERRO 404
+        if not email or not password:
             return Response(
-                {"erro": "Rota não encontrada."},
+                {"message": "Email ou senha ausentes."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            validate_email(email)
+        except ValidationError:
+            return Response(
+                {"detail": "Formato de email inválido."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                {"message": "Usuário não cadastrado."},
                 status=status.HTTP_404_NOT_FOUND
             )
 
+        if not user.check_password(password):
+            return Response(
+                {"message": "Senha incorreta"},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        try:
+            refresh = RefreshToken.for_user(user)
+            access = refresh.access_token
+
+            return Response(
+                {
+                    "message": "Login bem-sucedido",
+                    "access_token": str(access),
+                    "refresh_token": str(refresh),
+                    "user": {
+                        "id": user.id,
+                        "name": user.name,
+                        "email": user.email,
+                        "permission": user.permission,
+                        "role": user.role,
+                    }
+                },
+                status=status.HTTP_200_OK
+            )
         except Exception as e:
-            # ERRO 500
             return Response(
                 {"erro": f"Erro interno do servidor: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
