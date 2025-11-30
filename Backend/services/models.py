@@ -4,7 +4,7 @@ class Service(models.Model):
     name = models.CharField(max_length=150)
     description = models.TextField()
     benefits = models.TextField()
-    image = models.URLField(blank=True, null=True)
+    image = models.URLField(max_length=300, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
