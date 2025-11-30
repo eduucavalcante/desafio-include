@@ -16,12 +16,13 @@ class LoginView(APIView):
 
     @extend_schema(
         tags=['Autenticação'],
+        summary="Autenticar",
         request=AuthSerializer,
         responses={
             200: AuthResponseSerializer,
-            400: 'Bad Request - Email ou senha ausentes / Formato de email inválido',
-            401: 'Unauthorized - Senha incorreta',
-            500: 'Erro interno do servidor'
+            400: {"message": "Bad Request - Email ou senha ausentes / Formato de email inválido"},
+            401: {"message": "Unauthorized - Senha incorreta"},
+            500: {"message": "Erro interno do servidor"}
         }
     )
     def post(self, request):
