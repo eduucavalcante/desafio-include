@@ -125,6 +125,12 @@ cloudinary.config(
     api_secret=os.getenv("CLOUDINARY_API_SECRET"),
 )
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Vale J API',  # Título da sua API
+    'DESCRIPTION': 'API para painel administrativo do site institucional da Vale J, desafio final do trainee da Include Jr.',  # Descrição opcional
+    'VERSION': '1.0.0',
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
