@@ -2,22 +2,24 @@ from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import get_object_or_404
 from .models import TeamMember
 from .serializers import TeamSerializer
-from .permissions import IsAdmin
+from .permissions import HasPermission
 import cloudinary.uploader
-
 
 @extend_schema(tags=['Equipe'])
 class TeamView(APIView):
-    permission_classes = [IsAdmin]
+    permission_classes = [HasPermission]
 
     @extend_schema(
         tags=['Equipe'],
+        summary="Listar membros da equipe",
         responses={
             200: TeamSerializer(many=True),
-            404: "Nenhum membro encontrado"
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
+            404: {"message": "Ainda não há membros cadastrados."},
+            500: {"message": "Erro interno no servidor"},
         }
     )
     def get(self, request):
@@ -41,27 +43,24 @@ class TeamView(APIView):
 
     @extend_schema(
         tags=['Equipe'],
+        summary="Adicionar membro",
         request=TeamSerializer,
         responses={
             201: TeamSerializer,
-            400: "Dados inválidos",
-            500: "Erro interno"
+            400: {"message": "Dados inválidos ou campo obrigatório não preenchido."},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
+            500: {"message": "Erro interno no servidor"}
         }
     )
     def post(self, request):
         try:
-            data = request.data.copy()
-            photo = request.FILES.get("photo")
+            data = request.POST.dict()
+            image_file = request.FILES.get("image")
 
-            if not photo:
-                return Response(
-                    {"message": "Envie uma foto."},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            upload = cloudinary.uploader.upload(photo)
-            data["photo_url"] = upload["secure_url"]
-            data["photo_public_id"] = upload["public_id"]
+            if image_file:
+                upload_result = cloudinary.uploader.upload(request.FILES['image'])
+                data['image'] = upload_result['secure_url']
 
             serializer = TeamSerializer(data=data)
 
@@ -76,7 +75,7 @@ class TeamView(APIView):
                 )
 
             return Response(
-                {"message": "Dados inválidos.", "errors": serializer.errors},
+                {"message": "Erro ao salvar. Dados inválidos ou campo obrigatório não preenchido."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -89,49 +88,45 @@ class TeamView(APIView):
 
 @extend_schema(tags=['Equipe'])
 class TeamDetailView(APIView):
-    permission_classes = [IsAdmin]
+    permission_classes = [HasPermission]
 
-    # Utilitário solicitado
     def get_member_by_id(self, id):
-        return get_object_or_404(TeamMember, id=id)
+        try:
+            return TeamMember.objects.get(id=id)
+        except TeamMember.DoesNotExist:
+            return None
 
     @extend_schema(
         tags=['Equipe'],
-        responses={200: TeamSerializer, 404: "Não encontrado"}
-    )
-    def get(self, request, id):
-        member = self.get_member_by_id(id)
-        serializer = TeamSerializer(member)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @extend_schema(
-        tags=['Equipe'],
+        summary="Editar um membro",
         request=TeamSerializer,
         responses={
             200: TeamSerializer,
-            400: "Erro ao atualizar",
-            404: "Não encontrado"
+            400: {"message": "Dados inválidos ou campo obrigatório não preenchido."},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
+            404: {"message": "Membro não encontrado."},
+            500: {"message": "Erro interno no servidor"}
         }
     )
     def put(self, request, id):
-        member = self.get_member_by_id(id)
-
         try:
-            data = request.data.copy()
-            new_photo = request.FILES.get("photo")
+            data = request.POST.dict()
+            member = self.get_member_by_id(id)
 
-            # Se vier foto nova, apagar a antiga
-            if new_photo:
-                if member.photo_public_id:
-                    cloudinary.uploader.destroy(member.photo_public_id)
+            if member == None:
+                return Response(
+                    {"message": "Membro não encontrado."},
+                    status=status.HTTP_404_NOT_FOUND
+                )
 
-                upload = cloudinary.uploader.upload(new_photo)
-                data["photo_url"] = upload["secure_url"]
-                data["photo_public_id"] = upload["public_id"]
-            else:
-                # preservar valores antigos
-                data["photo_url"] = member.photo_url
-                data["photo_public_id"] = member.photo_public_id
+            new_image = request.FILES.get("image", None)
+            old_public_id = member.image.split("/")[-1].split(".")[0] if member.image else None
+
+            if new_image and old_public_id:
+                cloudinary.uploader.destroy(old_public_id)
+                upload_result = cloudinary.uploader.upload(request.FILES['image'])
+                data['image'] = upload_result['secure_url']
 
             serializer = TeamSerializer(member, data=data, partial=True)
 
@@ -146,7 +141,7 @@ class TeamDetailView(APIView):
                 )
 
             return Response(
-                {"message": "Erro ao atualizar.", "errors": serializer.errors},
+                {"message": "Erro ao salvar. Dados inválidos ou campo obrigatório não preenchido."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -158,18 +153,28 @@ class TeamDetailView(APIView):
 
     @extend_schema(
         tags=['Equipe'],
+        summary="Remover um membro",
         responses={
-            204: "Membro removido",
-            404: "Não encontrado"
+            204: {"message": "Membro removido com sucesso."},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
+            404: {"message": "Membro não encontrado"},
+            500: {"message": "Erro interno no servidor"}
         }
     )
     def delete(self, request, id):
-        member = self.get_member_by_id(id)
-
         try:
-            # remove imagem no Cloudinary
-            if member.photo_public_id:
-                cloudinary.uploader.destroy(member.photo_public_id)
+            member = self.get_member_by_id(id)
+
+            if member == None:
+                return Response(
+                    {"message": "Membro não encontrado"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            if member.image:
+                public_id = member.image.split("/")[-1].split(".")[0]
+                cloudinary.uploader.destroy(public_id)
 
             member.delete()
             return Response(

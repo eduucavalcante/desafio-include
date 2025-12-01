@@ -17,5 +17,3 @@ class Command(BaseCommand):
                 permission=os.getenv("ADMIN_PERMISSION"),
             )
             self.stdout.write(self.style.SUCCESS("Admin criado!"))
-        else:
-            self.stdout.write("Admin já existe.")
