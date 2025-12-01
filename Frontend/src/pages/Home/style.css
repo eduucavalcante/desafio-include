@@ -3,6 +3,7 @@
 body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden; 
 }
 
 .boxApresentacao {
@@ -123,6 +124,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
 
 }
 
@@ -137,8 +139,187 @@ body {
     margin-right: 15px;
 }
 
+.titleProjetos{
+    color: #051923;
+}
+
+.containerProjetos{
+    background-image: url('../../assets/fundoProjetos.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+    padding: 40px 0;
+    box-shadow: 0 4px 10px rgba(194, 16, 16, 0.35);
+}
+
+.titleProjetos{
+    margin-top: 40px;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    color: #051923;
+}
+
+.barra-laranja {
+    position: relative;
+    display: inline-block;
+    background-image: linear-gradient(to bottom, transparent 75%, #DA5126 75%);
+    background-repeat: no-repeat;
+    background-size: 80% 25px;
+    border-radius: 2px;
+    background-position: bottom; 
+    padding-bottom: 4px;
+}
+
+.card {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.custom-carousel .p-carousel-container {
+    padding: 10px 0 !important;
+}
+
+.custom-carousel .p-carousel-content {
+    padding: 0 !important;
+}
+
+.custom-carousel .p-carousel-items-container {
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+.custom-carousel .p-carousel-item {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    padding: 10px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.carousel-item-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.p-carousel-content {
+    padding: 0 !important;
+}
+
+.p-carousel-container {
+    margin: 0 !important;
+}
 
 
+.containerService{
+    background-image: url('../../assets/fundoService.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+    padding: 40px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    position: relative;
+}
+
+.containerService::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../../assets/fundoService.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.titleService{
+    margin-top: 40px;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    color: #DA5126;
+    position: relative;
+    z-index: 1;
+}
+
+.barraAzul{
+    position: relative;
+    display: inline-block;
+    background-image: linear-gradient(to bottom, transparent 75%, #004BAF 75%);
+    background-repeat: no-repeat;
+    background-size: 80% 25px;
+    border-radius: 2px;
+    background-position: bottom; 
+    padding-bottom: 4px;
+}
+
+.cardService {
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+
+.custom-carousel-service .p-carousel-container {
+    padding: 10px 0 !important;
+}
+
+.custom-carousel-service .p-carousel-content {
+    padding: 0 !important;
+}
+
+.custom-carousel-service .p-carousel-items-container {
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+.custom-carousel-service .p-carousel-item {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    padding: 10px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.custom-carousel .p-carousel-item .boxCardConteudo,
+.custom-carousel-service .p-carousel-item .boxCardConteudo {
+    height: 100%;
+    display: flex;
+}
+
+.custom-carousel-service .p-carousel-prev,
+.custom-carousel-service .p-carousel-next {
+    background: #DA5126 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.custom-carousel-service .p-carousel-prev:hover,
+.custom-carousel-service .p-carousel-next:hover {
+    background: #c44920 !important;
+}
+
+@media (max-width: 480px) {
+    .containerService {
+        min-height: 500px;
+    }
+    
+    .cardService {
+        max-width: 100%;
+    }
+}
 
 @media (max-width: 768px) {
     .boxTextElogoApresetacao {
@@ -170,16 +351,57 @@ body {
         overflow: hidden;
     }
 
-    /* .carrossel-wrapper {
-        width: 400%;
-        animation: carrossel 16s infinite ease-in-out;
+    .containerProjetos {
+        padding: 20px 0;
+        min-height: auto;
     }
 
-    @keyframes carrossel {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-25%); }
-        50% { transform: translateX(-50%); }
-        75% { transform: translateX(-75%); }
-        100% { transform: translateX(0); }
-    } */
+    .titleProjetos {
+        margin-top: 20px;
+        font-size: 32px;
+    }
+
+    .barra-laranja {
+        background-size: 70% 20px;
+    }
+
+    .card {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+    
+    .custom-carousel .p-carousel-item {
+        padding: 5px;
+    }
+
+    .containerService {
+        padding: 20px 0;
+        min-height: auto;
+    }
+
+    .titleService {
+        margin-top: 20px;
+        font-size: 32px;
+    }
+
+    .cardService {
+        max-width: 95%;
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    .custom-carousel-service .p-carousel-item {
+        padding: 5px !important;
+        min-width: 280px !important; 
+    }
+
+    .custom-carousel-service {
+        min-height: 400px;
+    }
+
+    .custom-carousel-service .p-carousel-prev,
+    .custom-carousel-service .p-carousel-next {
+        width: 35px !important;
+        height: 35px !important;
+    }
 }
