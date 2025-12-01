@@ -108,13 +108,16 @@ A API estará disponível em:
 
 ```txt
 Backend/
-├── core/              # Projeto Django (settings, urls, wsgi)
-├── accounts/          # App com models e views de usuários
-├── services/          # App com models e views de serviços
-├── manage.py
-├── requirements.txt
+├── accounts            # App com models e views de usuários
+├── authentication      # App com lógica de login via JWT
+├── core                # Projeto Django (settings, urls, wsgi)
+├── projects            # App de projetos e portfólio de imagens
+├── services            # App de serviços
+├── team                # App de gestão dos membros da equipe
 ├── .gitignore
-└── README.md
+├── README.md
+├── manage.py
+└── requirements.txt
 ```
 
 ---
