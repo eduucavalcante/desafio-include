@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [
-        ('diretoria', 'Diretoria/Presex'),
+        ('presex', 'Presex'),
         ('marketing', 'Marketing'),
         ('projetista', 'Projetista'),
         ('gestao', 'Gestão de Pessoas'),
