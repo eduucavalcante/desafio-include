@@ -1,21 +1,25 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from .models import Contact
-from .serializers import ContactSerializer, ContactResponseSerializer
-from .permissions import IsAdmin
-
+from .serializers import ContactSerializer
+from .permissions import HasPermission
 
 @extend_schema(tags=['Contatos'])
 class ContactView(APIView):
-    permission_classes = [IsAdmin]
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [HasPermission()]
 
     @extend_schema(
         tags=['Contatos'],
         summary="Listar contatos",
         responses={
-            200: ContactResponseSerializer(many=True),
+            200: ContactSerializer(many=True),
             401: {"message": "Unauthorized - Usuário não autenticado"},
             403: {"message": "Forbidden - Usuário não possui permissão"},
             404: {"message": "Ainda não há contatos cadastrados"},
@@ -32,7 +36,7 @@ class ContactView(APIView):
                     status=status.HTTP_404_NOT_FOUND
                 )
 
-            serializer = ContactResponseSerializer(contacts, many=True)
+            serializer = ContactSerializer(contacts, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
@@ -46,7 +50,7 @@ class ContactView(APIView):
         summary="Cadastrar contato",
         request=ContactSerializer,
         responses={
-            201: ContactResponseSerializer,
+            201: ContactSerializer,
             400: {"message": "Dados inválidos ou campo obrigatório não preenchido."},
             401: {"message": "Unauthorized - Usuário não autenticado"},
             403: {"message": "Forbidden - Usuário não possui permissão"},
@@ -62,7 +66,7 @@ class ContactView(APIView):
                 return Response(
                     {
                         "message": "Contato cadastrado com sucesso.",
-                        "contact": ContactResponseSerializer(contact).data
+                        "contact": ContactSerializer(contact).data
                     },
                     status=status.HTTP_201_CREATED
                 )
@@ -81,7 +85,7 @@ class ContactView(APIView):
 
 @extend_schema(tags=['Contatos'])
 class ContactDetailView(APIView):
-    permission_classes = [IsAdmin]
+    permission_classes = [HasPermission]
 
     def get_contact_by_id(self, id):
         try:
@@ -94,7 +98,7 @@ class ContactDetailView(APIView):
         summary="Editar um contato",
         request=ContactSerializer,
         responses={
-            200: ContactResponseSerializer,
+            200: ContactSerializer,
             400: {"message": "Dados inválidos ou campo obrigatório não preenchido."},
             401: {"message": "Unauthorized - Usuário não autenticado"},
             403: {"message": "Forbidden - Usuário não possui permissão"},
@@ -119,7 +123,7 @@ class ContactDetailView(APIView):
                 return Response(
                     {
                         "message": "Contato atualizado com sucesso.",
-                        "contact": ContactResponseSerializer(contact).data
+                        "contact": ContactSerializer(contact).data
                     },
                     status=status.HTTP_200_OK
                 )
