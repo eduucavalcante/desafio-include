@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-import os
+import os, tempfile, atexit
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -103,19 +103,70 @@ AUTH_USER_MODEL = 'accounts.User'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-        'OPTIONS': {
-            'charset': 'utf8mb4',
+if os.getenv("ENV") == "prod":
+    try:
+        ca_content = os.getenv('DB_CA')
+        temp_ca_file = tempfile.NamedTemporaryFile(delete=False)
+        temp_ca_file.write(ca_content.encode('utf-8'))
+        temp_ca_file.close()
+
+        TEMP_CA_FILE_PATH = temp_ca_file.name
+
+        def cleanup_ca_file():
+            if TEMP_CA_FILE_PATH and os.path.exists(TEMP_CA_FILE_PATH):
+                try:
+                    os.remove(TEMP_CA_FILE_PATH)
+                except Exception as e:
+                    print(f"Falha ao remover arquivo CA temporário: {e}")
+
+        atexit.register(cleanup_ca_file)
+
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.getenv('DB_NAME'),
+                'USER': os.getenv('DB_USER'),
+                'PASSWORD': os.getenv('DB_PASSWORD'),
+                'HOST': os.getenv('DB_HOST'),
+                'PORT': os.getenv('DB_PORT'),
+                'OPTIONS': {
+                    'charset': 'utf8mb4',
+                    'ssl': {
+                        'rejectUnauthorized': True,
+                        'ca': TEMP_CA_FILE_PATH
+                    }
+                }
+            }
+        }
+    except Exception as e:
+        print(f"ERRO CRÍTICO: Falha ao configurar CA temporário para DB: {e}")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.getenv('DB_NAME_DEV'),
+                'USER': os.getenv('DB_USER_DEV'),
+                'PASSWORD': os.getenv('DB_PASSWORD_DEV'),
+                'HOST': os.getenv('DB_HOST_DEV'),
+                'PORT': os.getenv('DB_PORT_DEV'),
+                'OPTIONS': {
+                    'charset': 'utf8mb4',
+                }
+            }
+        }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('DB_NAME_DEV'),
+            'USER': os.getenv('DB_USER_DEV'),
+            'PASSWORD': os.getenv('DB_PASSWORD_DEV'),
+            'HOST': os.getenv('DB_HOST_DEV'),
+            'PORT': os.getenv('DB_PORT_DEV'),
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+            }
         }
     }
-}
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
