@@ -179,7 +179,11 @@ class ProjectDetailView(APIView):
 
 @extend_schema(tags=['Portfólio'])
 class PortfolioImageView(APIView):
-    permission_classes = [HasPermission]
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [HasPermission()]
 
     @extend_schema(
         tags=['Portfólio'],
