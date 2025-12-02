@@ -6,3 +6,8 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        db_table = "contatos"
+        verbose_name = "Contato"
+        verbose_name_plural = "Contatos"

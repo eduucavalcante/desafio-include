@@ -1,6 +1,7 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from .models import TeamMember
 from .serializers import TeamSerializer
@@ -9,7 +10,11 @@ import cloudinary.uploader
 
 @extend_schema(tags=['Equipe'])
 class TeamView(APIView):
-    permission_classes = [HasPermission]
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [HasPermission()]
 
     @extend_schema(
         tags=['Equipe'],
