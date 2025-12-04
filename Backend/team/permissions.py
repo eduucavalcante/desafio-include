@@ -2,4 +2,4 @@ from rest_framework.permissions import BasePermission
 
 class HasPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.role in ["presex", "gestao"]
+        return request.user.is_authenticated and (request.user.role in ["presex", "gestao"] or request.user.permission == "admin")
