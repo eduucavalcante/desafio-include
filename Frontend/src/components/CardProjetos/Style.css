@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.boxContainerServic{
+    height: 355px;
+    width: 100%;
+}
+
+.boxServicImg{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(31, 30, 30, 0.445);
+}
+
+.boxServicImg img{
+    object-fit: cover;
+    width: 100%;
+}
+
+.boxServiceText{
+    color: #123247;
+    text-align: center;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.boxServiceText h1{
+    font-size: 28px;
+    font-weight: 600;
+    font-family: 'Montserrat';
+}
+
+.boxServiceText p{
+    color: #051923;
+    font-size: 18px;
+    font-weight: 400;
+}
