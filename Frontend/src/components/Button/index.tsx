@@ -5,16 +5,18 @@ interface MainButton{
     text: string,
     color: string,
     icon?: IconType,
-    href: string
-    textColor?: string 
-
+    href?: string
+    textColor?: string,
+    onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
-function Button({text, color, href, icon: Icon, textColor} : MainButton){
+function Button( {text, color, href, icon: Icon, textColor, onClick}: MainButton){
     return(
         <a href={href}>
-            <div className="buttonBox" style={{backgroundColor: color}}>
+            <div className="buttonBox" style={{backgroundColor: color}} onClick={onClick}>
+
                 {Icon && <Icon size={20} style={{ marginRight: "8px", color: "black" }} />}
+
                 <span className="buttonText" style={{color: textColor}}>
                     {text}
                 </span>
@@ -23,3 +25,9 @@ function Button({text, color, href, icon: Icon, textColor} : MainButton){
     )
 }
 export default Button;
+
+
+
+
+
+

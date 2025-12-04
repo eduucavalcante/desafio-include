@@ -3,14 +3,28 @@ import Button from "../../components/Button";
 import { Carousel } from 'primereact/carousel';
 import CardProject from "../../components/CardProjetos";
 import CardServic from "../../components/CardServic";
-import CardReview from "../../components/cardReview";
+import CardReview from "../../components/CardReview";
+import CardEquipe from "../../components/CardEquipe";
+import ModalEquipe from "../../components/ModalEquipe";
+import FooterUser from "../../components/Footer";
+import type { Diretoria } from "../../utils/DiretoriaType";
+import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import logo from "../../assets/Logo.png"
 import dados from "./dates";
 import "./style.css"
 
 function HomePage(){
-    const { responsiveOptions, impactos, projetos, servicos, responsiveOptionsReview, reviewClientes } = dados;
+
+    const [openModal, setOpenModal] = useState(false);
+    const [diretoriaSelecionada, setDiretoriaSelecionada] = useState<Diretoria | null>(null);
+
+    const handleOpen = (item: Diretoria) => {
+        setDiretoriaSelecionada(item);
+        setOpenModal(true);
+    };
+
+    const { responsiveOptions, impactos, projetos, servicos, responsiveOptionsReview, reviewClientes, dadosDiretoria} = dados;
 
     const CardProjectTemplate = (project: any) => {
         return <CardProject {...project} />;
@@ -19,6 +33,10 @@ function HomePage(){
     const CardServicTemplate = (service: any) => {
         return <CardServic {...service} />;
     };
+
+    const CardReviewTemplate = (service: any) => {
+        return <CardReview {...service} />;
+    }
     
     
     return(
@@ -115,6 +133,55 @@ function HomePage(){
                     </div>
                 </div>
             </div>
+
+            <div className="containerReviews">
+                <div className="conteudoReviews">
+                    <div className="titleReviews">
+                        <h1 className="barra-laranja">O que nossos clientes dizem</h1>
+                        <p className="subTextReview">
+                            A satisfação de quem confia em nosso trabalho é nossa maior conquista.
+                        </p>
+                    </div>
+                    <div className="cardReview">
+                        <Carousel
+                            value={reviewClientes}
+                            numVisible={1} 
+                            numScroll={1}   
+                            className="custom-carousel-review"
+                            circular
+                            autoplayInterval={3000}
+                            responsiveOptions={responsiveOptionsReview}
+                            itemTemplate={CardReviewTemplate}
+                            showNavigators={true}
+                            showIndicators={true}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div className="containeDiretorias"> 
+                <div className="containerEquipes">
+                    <h1 className="barraAzul">Conheça Nossa Equipe</h1>
+                </div>
+                <div className="carrossel-wrapper">
+                    {dadosDiretoria.map((diretoria) => (
+                        <CardEquipe
+                            key={diretoria.id}
+                            title={diretoria.title}
+                            onClick={() => handleOpen(diretoria)}  
+                        />
+                    ))}
+                </div>
+            </div>
+            
+            <FooterUser/>
+
+            <ModalEquipe
+                isOpen={openModal}
+                onClose={() => setOpenModal(false)}
+                dados={diretoriaSelecionada}
+            />
+
         </div>
     )
 }

@@ -1,9 +1,10 @@
-
+import CardEquipe from "../../components/CardEquipe";
+import FooterUser from "../../components/Footer";
 
 function TestPage(){
     return(
-        <div>
-
+        <div>   
+            <FooterUser/>
         </div>
     )
 }

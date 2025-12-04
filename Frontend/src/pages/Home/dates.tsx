@@ -238,4 +238,30 @@ export default {
         }
     ],
 
+    dadosDiretoria: [
+        {
+            id: 1,
+            title: "Diretoria da Presidência",
+            membros: [
+                { id: 1, name: "João", funcao: "Presidente" },
+                { id: 2, name: "Maria", funcao: "Assessora" }
+            ]
+        },
+        {
+            id: 2,
+            title: "Diretoria VPGG",
+            membros: [{ id: 3, name: "Pedro", funcao: "Diretor" }]
+        },
+        {
+            id: 3,
+            title: "Diretoria Comercial",
+            membros: []
+        },
+        {
+            id: 4,
+            title: "Diretoria de Projetos",
+            membros: []
+        }
+    ]
+
 };
