@@ -1,17 +1,22 @@
 from drf_spectacular.utils import extend_schema
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import History, Enterprise
 from .serializers import HistorySerializer, EnterpriseSerializer
+from .permissions import HasPermission
 
-
-
-@extend_schema(tags=['History'])
+@extend_schema(tags=['Sobre'])
 class HistoryView(APIView):
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [HasPermission()]
 
     @extend_schema(
-        tags=['History'],
+        tags=['Sobre'],
         summary="Listar registros de história",
         responses={
             200: HistorySerializer(many=True),
@@ -39,17 +44,26 @@ class HistoryView(APIView):
             )
 
     @extend_schema(
-        tags=['History'],
+        tags=['Sobre'],
         summary="Criar registro de história",
         request=HistorySerializer,
         responses={
             201: HistorySerializer,
+            204: {"message": "Já existe uma história cadastrada. Tente editá-la."},
             400: {"message": "Dados inválidos"},
             500: {"message": "Erro interno no servidor"},
         }
     )
     def post(self, request):
         try:
+            history = History.objects.all()
+
+            if history.count() != 0:
+                return Response(
+                    {"message": "Já existe uma história cadastrada. Tente editá-la."},
+                    status=status.HTTP_204_NO_CONTENT
+                )
+            
             serializer = HistorySerializer(data=request.data)
 
             if serializer.is_valid():
@@ -68,8 +82,9 @@ class HistoryView(APIView):
             )
 
 
-@extend_schema(tags=['History'])
+@extend_schema(tags=['Sobre'])
 class HistoryDetailView(APIView):
+    permission_classes = [HasPermission]
 
     def get_history(self, id):
         try:
@@ -78,7 +93,7 @@ class HistoryDetailView(APIView):
             return None
 
     @extend_schema(
-        tags=['History'],
+        tags=['Sobre'],
         summary="Atualizar registro de história",
         request=HistorySerializer,
         responses={
@@ -110,7 +125,7 @@ class HistoryDetailView(APIView):
             )
 
     @extend_schema(
-        tags=['History'],
+        tags=['Sobre'],
         summary="Excluir registro de história",
         responses={
             204: {"message": "Registro removido com sucesso"},
@@ -137,11 +152,16 @@ class HistoryDetailView(APIView):
 
 # ============================= ENTERPRISE =============================
 
-@extend_schema(tags=['Enterprise'])
+@extend_schema(tags=['Sobre'])
 class EnterpriseView(APIView):
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [HasPermission()]
 
     @extend_schema(
-        tags=['Enterprise'],
+        tags=['Sobre'],
         summary="Listar registros de EJ",
         responses={
             200: EnterpriseSerializer(many=True),
@@ -169,17 +189,26 @@ class EnterpriseView(APIView):
             )
 
     @extend_schema(
-        tags=['Enterprise'],
+        tags=['Sobre'],
         summary="Criar registro de EJ",
         request=EnterpriseSerializer,
         responses={
             201: EnterpriseSerializer,
+            204: {"message": "Já existe registro sobre a EJ cadastrado. Tente editá-la."},
             400: {"message": "Dados inválidos"},
             500: {"message": "Erro interno no servidor"},
         }
     )
     def post(self, request):
         try:
+            enterprise = Enterprise.objects.all()
+
+            if enterprise.count() != 0:
+                return Response(
+                    {"message": "Já existe registro sobre a EJ cadastrado. Tente editá-la."},
+                    status=status.HTTP_204_NO_CONTENT
+                )
+            
             serializer = EnterpriseSerializer(data=request.data)
 
             if serializer.is_valid():
@@ -195,8 +224,9 @@ class EnterpriseView(APIView):
             )
 
 
-@extend_schema(tags=['Enterprise'])
+@extend_schema(tags=['Sobre'])
 class EnterpriseDetailView(APIView):
+    permission_classes = [HasPermission]
 
     def get_enterprise(self, id):
         try:
@@ -205,7 +235,7 @@ class EnterpriseDetailView(APIView):
             return None
 
     @extend_schema(
-        tags=['Enterprise'],
+        tags=['Sobre'],
         summary="Atualizar registro de EJ",
         request=EnterpriseSerializer,
         responses={
@@ -237,7 +267,7 @@ class EnterpriseDetailView(APIView):
             )
 
     @extend_schema(
-        tags=['Enterprise'],
+        tags=['Sobre'],
         summary="Excluir registro de EJ",
         responses={
             204: {"message": "Registro removido com sucesso"},
