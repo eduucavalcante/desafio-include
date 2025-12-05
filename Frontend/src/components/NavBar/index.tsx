@@ -33,7 +33,7 @@ function Navbar() {
             <Button text="Serviços" color="#051923" href="#" />
 
           
-            <Button text="Quem Somos" color="#051923" href="#" />
+            <Button text="Quem Somos" color="#051923" onClick={()=>navigation("/QuemSomos")} />
 
           
             <Button text="Portifólio" color="#051923" href="#" />
