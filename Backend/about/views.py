@@ -6,7 +6,6 @@ from .models import History, Enterprise
 from .serializers import HistorySerializer, EnterpriseSerializer
 
 
-
 @extend_schema(tags=['History'])
 class HistoryView(APIView):
 
@@ -134,8 +133,6 @@ class HistoryDetailView(APIView):
                 status=500
             )
 
-
-# ============================= ENTERPRISE =============================
 
 @extend_schema(tags=['Enterprise'])
 class EnterpriseView(APIView):
