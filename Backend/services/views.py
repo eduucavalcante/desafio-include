@@ -146,6 +146,7 @@ class ServiceDetailView(APIView):
                 {"message:": f"Ocorreu um erro ao salvar alterações: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
     @extend_schema(
         summary="Deletar um serviço",
         responses={
@@ -156,7 +157,6 @@ class ServiceDetailView(APIView):
             500: {"message": "Erro interno no servidor"}
         }
     )
-    
     def delete(self, request, id):
         try:
             service = self.get_service_by_id(id)
