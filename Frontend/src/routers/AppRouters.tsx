@@ -2,6 +2,7 @@ import {Route, Routes } from "react-router-dom"
 import HomePage from "../pages/Home"
 import TestPage from "../pages/TestPage"
 import Contatos from "../pages/Contatos"
+import TesteFront from "../pages/TesteFront"
 
 function AppRouters(){
     return(       
@@ -9,6 +10,7 @@ function AppRouters(){
             <Route path="/" element = {<HomePage/>}/>
             <Route path="/teste" element = {<TestPage/>}/>
             <Route path="/contatos" element = {<Contatos/>}/>
+            <Route path="/TesteFront" element = {<TesteFront/>}/>
         </Routes>
     )
 }
