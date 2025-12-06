@@ -1,0 +1,70 @@
+.containerCardValor{
+    background-color: #123247;
+    max-width: 338px;
+    width: 100%;
+    padding: 40px 25px;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.containerImgValor{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #E36C47;
+    background-color: #123247;
+}
+.containerImgValor img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tituloValor{
+    font-size: 20px;
+    color: #ffffff;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.descricaoValor{
+    color: #d0d0d0;
+    margin-top: 15px;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+
+@media (max-width: 480px) {
+
+    .containerCardValor{
+        max-width: 80%;
+        padding: 50px 20px;
+    }
+
+    .containerImgValor{
+        width: 90px;
+        height: 90px;
+        margin-top: -45px;
+    }
+
+    .tituloValor{
+        font-size: 18px;
+    }
+
+    .descricaoValor{
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .containerCardValor{
+        max-width: 300px;
+    }
+}

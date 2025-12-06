@@ -1,0 +1,87 @@
+.containerEventoContainer {
+    display: flex;
+    width: 100%; 
+    margin: 0 auto;
+    gap: 40px;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box; 
+}
+
+.containerTextEventos {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.containerTitleEventos h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #CEDFE0;
+    text-transform: uppercase;
+}
+
+.containerDescriptionEventos p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #CEDFE0;
+    text-align: justify;
+}
+
+.containerFotoEventos {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerFotoEventos div {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.containerFotoEventos img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.containerFotoEventos img:hover {
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .containerEventoContainer {
+        flex-direction: column;
+        gap: 30px;
+        padding: 20px;
+        width: 100%; 
+    }
+    
+    .containerTextEventos {
+        padding-right: 0;
+        width: 100%;
+    }
+    
+    .containerTitleEventos h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+    
+    .containerDescriptionEventos p {
+        text-align: center;
+        padding: 0 10px;
+    }
+    
+    .containerFotoEventos {
+        width: 100%;
+    }
+    
+    .containerFotoEventos div {
+        max-width: 100%;
+    }
+}
