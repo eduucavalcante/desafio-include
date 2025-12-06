@@ -24,11 +24,11 @@ export default{
         {id:4, image: premio4},
     ],
     eventos:[
-        {id:1, title: "Algum titulos ai ", description:"olas kjskajskajs asiobikbalsikubQLIKBBLIB ijsdijwijdwijdlw kdnwidwiojdwindwkbdwlidb", image: premio1},
-        {id:2, title: "Algum titulos ai ", description:"olas kjskajskajs asiobikbalsikubQLIKBBLIB ijsdijwijdwijdlw kdnwidwiojdwindwkbdwlidb", image: premio2},
-        {id:3, title: "Algum titulos ai ", description:"olas kjskajskajs asiobikbalsikubQLIKBBLIB ijsdijwijdwijdlw kdnwidwiojdwindwkbdwlidb", image: premio1},
-        {id:4, title: "Algum titulos ai ", description:"olas kjskajskajs asiobikbalsikubQLIKBBLIB ijsdijwijdwijdlw kdnwidwiojdwindwkbdwlidb", image: premio4},
-        {id:5, title: "Algum titulos ai ", description:"olas kjskajskajs asiobikbalsikubQLIKBBLIB ijsdijwijdwijdlw kdnwidwiojdwindwkbdwlidb", image: premio3},
+        {id:1, title: "EVENTO EM FORTALEZA ", description:"A Vale Jr teve a honra de participar recentemente de um dos eventos mais importantes do movimento empresa júnior, realizado em Fortaleza. Essa experiência marcou nosso time e reforçou o compromisso que temos com desenvolvimento, inovação e impacto. Durante o evento, nossos membros vivenciaram palestras, workshops e atividades que ampliaram nossa visão sobre gestão, liderança e excelência na entrega de projetos", image: premio1},
+        {id:2, title: "EVENTO EM FORTALEZA ", description:"A Vale Jr teve a honra de participar recentemente de um dos eventos mais importantes do movimento empresa júnior, realizado em Fortaleza. Essa experiência marcou nosso time e reforçou o compromisso que temos com desenvolvimento, inovação e impacto. Durante o evento, nossos membros vivenciaram palestras, workshops e atividades que ampliaram nossa visão sobre gestão, liderança e excelência na entrega de projetos", image: premio2},
+        {id:3, title: "EVENTO EM FORTALEZA ", description:"A Vale Jr teve a honra de participar recentemente de um dos eventos mais importantes do movimento empresa júnior, realizado em Fortaleza. Essa experiência marcou nosso time e reforçou o compromisso que temos com desenvolvimento, inovação e impacto. Durante o evento, nossos membros vivenciaram palestras, workshops e atividades que ampliaram nossa visão sobre gestão, liderança e excelência na entrega de projetos", image: premio1},
+        {id:4, title: "EVENTO EM FORTALEZA ", description:"A Vale Jr teve a honra de participar recentemente de um dos eventos mais importantes do movimento empresa júnior, realizado em Fortaleza. Essa experiência marcou nosso time e reforçou o compromisso que temos com desenvolvimento, inovação e impacto. Durante o evento, nossos membros vivenciaram palestras, workshops e atividades que ampliaram nossa visão sobre gestão, liderança e excelência na entrega de projetos", image: premio4},
+        {id:5, title: "EVENTO EM FORTALEZA ", description:"A Vale Jr teve a honra de participar recentemente de um dos eventos mais importantes do movimento empresa júnior, realizado em Fortaleza. Essa experiência marcou nosso time e reforçou o compromisso que temos com desenvolvimento, inovação e impacto. Durante o evento, nossos membros vivenciaram palestras, workshops e atividades que ampliaram nossa visão sobre gestão, liderança e excelência na entrega de projetos", image: premio3},
     ],
 
     cardValor:[

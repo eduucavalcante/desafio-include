@@ -1,0 +1,147 @@
+.custom-modal-bg .bg-white {
+    background-color: white !important;
+}
+
+.containerTable {
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+
+.containerTable table thead {
+    background-color: #f8f9fa;
+}
+
+.containerTable table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+
+.containerTable table tbody {
+    background-color: white;
+}
+
+.containerTable table tbody tr {
+    background-color: white;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s;
+}
+
+.containerTable table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.containerTable table td {
+    color: black;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+
+.containerText .font-medium {
+    color: #212529 !important;
+    font-weight: 500;
+}
+
+.text-red-800 {
+    color: white; 
+}
+.text-green-800 {
+    color: white; 
+}
+
+
+[data-modal-backdrop] {
+    background-color: red !important;
+}
+
+[role="dialog"] {
+
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+
+.modal-header {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    padding: 16px 24px !important;
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+}
+
+.modal-header h2 {
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+
+.modal-body {
+    background-color: red !important;
+    color: #495057 !important;
+    padding: 24px !important;
+}
+
+.modal-body h3 {
+    color: #212529 !important;
+}
+
+.modal-body p {
+    color: #6c757d !important;
+}
+
+
+.modal-footer {
+    background-color: #f8f9fa !important;
+    border-top: 1px solid #dee2e6 !important;
+    padding: 16px 24px !important;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+
+button {
+    transition: all 0.2s ease-in-out;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+
+@media (max-width: 768px) {
+    .overflow-x-auto {
+        margin: 0 -1rem;
+        padding: 0 1rem;
+    }
+
+    .overflow-x-auto table {
+        min-width: 640px;
+    }
+
+
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}

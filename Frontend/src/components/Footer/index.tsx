@@ -2,9 +2,11 @@ import logoFooter from "../../assets/logoFooter.png";
 import { IoTimeOutline } from "react-icons/io5";
 import { MdLocationOn } from "react-icons/md";
 import { FaInstagram } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "./Style.css"
 
 function FooterUser() {
+    const navigate = useNavigate();
     return (
         <footer className="footerContainer">
             <div className="footerColumn leftCol">
@@ -71,7 +73,7 @@ function FooterUser() {
                     <a href="#">Quem Somos</a>
                     <a href="#">Portfólio</a>
                     <a href="#">Contato</a>
-                    <a href="#">Painel Administrativo</a>
+                    <a  onClick={()=> navigate("/HomeAdmin")}>Painel Administrativo</a>
                 </nav>
             </div>
 
