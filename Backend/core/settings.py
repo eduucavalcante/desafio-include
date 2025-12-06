@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'contacts',
     'about',
     'gallery',
+    'culture',
+    'advantages',
 ]
 
 MIDDLEWARE = [

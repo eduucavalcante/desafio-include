@@ -1,16 +1,22 @@
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from drf_spectacular.utils import extend_schema
 from .models import Advantage
 from .serializers import AdvantageSerializer
+from .permissions import HasPermission
 
-
-@extend_schema(tags=["Advantages"])
+@extend_schema(tags=["Diferenciais"])
 class AdvantageView(APIView):
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [HasPermission()]
 
     @extend_schema(
-        tags=["Advantages"],
+        tags=["Diferenciais"],
         summary="Listar registros de diferenciais",
         responses={
             200: AdvantageSerializer(many=True),
@@ -38,12 +44,14 @@ class AdvantageView(APIView):
             )
 
     @extend_schema(
-        tags=["Advantages"],
+        tags=["Diferenciais"],
         summary="Criar registro de diferencial",
         request=AdvantageSerializer,
         responses={
             201: AdvantageSerializer,
             400: {"message": "Dados inválidos"},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
             500: {"message": "Erro interno no servidor"},
         }
     )
@@ -64,8 +72,9 @@ class AdvantageView(APIView):
             )
 
 
-@extend_schema(tags=["Advantages"])
+@extend_schema(tags=["Diferenciais"])
 class AdvantageDetailView(APIView):
+    permission_classes = [HasPermission]
 
     def get_advantage(self, id):
         try:
@@ -74,12 +83,14 @@ class AdvantageDetailView(APIView):
             return None
 
     @extend_schema(
-        tags=["Advantages"],
+        tags=["Diferenciais"],
         summary="Atualizar registro de diferencial",
         request=AdvantageSerializer,
         responses={
             200: AdvantageSerializer,
             400: {"message": "Dados inválidos"},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
             404: {"message": "Registro não encontrado"},
             500: {"message": "Erro interno no servidor"},
         }
@@ -106,10 +117,12 @@ class AdvantageDetailView(APIView):
             )
 
     @extend_schema(
-        tags=["Advantages"],
+        tags=["Diferenciais"],
         summary="Excluir registro de diferencial",
         responses={
             204: {"message": "Registro removido com sucesso"},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
             404: {"message": "Registro não encontrado"},
             500: {"message": "Erro interno no servidor"},
         }
