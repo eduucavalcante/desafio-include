@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import culture
+from .models import Culture
 
-class CultureSerializers(serializers.ModelSerializers):
+class CultureSerializer(serializers.ModelSerializer):
     class Meta:
-        model = culture
+        model = Culture
         fields = '__all__'

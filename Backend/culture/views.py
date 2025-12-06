@@ -1,16 +1,22 @@
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from drf_spectacular.utils import extend_schema
 from .models import Culture
 from .serializers import CultureSerializer
+from .permissions import HasPermission
 
-
-@extend_schema(tags=["Culture"])
+@extend_schema(tags=["Cultura"])
 class CultureView(APIView):
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [HasPermission()]
 
     @extend_schema(
-        tags=["Culture"],
+        tags=["Cultura"],
         summary="Listar registros de cultura organizacional",
         responses={
             200: CultureSerializer(many=True),
@@ -38,17 +44,27 @@ class CultureView(APIView):
             )
 
     @extend_schema(
-        tags=["Culture"],
+        tags=["Cultura"],
         summary="Criar registro de cultura organizacional",
         request=CultureSerializer,
         responses={
             201: CultureSerializer,
             400: {"message": "Dados inválidos"},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
             500: {"message": "Erro interno no servidor"},
         }
     )
     def post(self, request):
         try:
+            culture = Culture.objects.all()
+
+            if culture.count() != 0:
+                return Response(
+                    {"message": "Já existe uma história cadastrada. Tente editá-la."},
+                    status=status.HTTP_204_NO_CONTENT
+                )
+            
             serializer = CultureSerializer(data=request.data)
 
             if serializer.is_valid():
@@ -64,8 +80,9 @@ class CultureView(APIView):
             )
 
 
-@extend_schema(tags=["Culture"])
+@extend_schema(tags=["Cultura"])
 class CultureDetailView(APIView):
+    permission_classes = [HasPermission]
 
     def get_culture(self, id):
         try:
@@ -74,12 +91,14 @@ class CultureDetailView(APIView):
             return None
 
     @extend_schema(
-        tags=["Culture"],
+        tags=["Cultura"],
         summary="Atualizar registro de cultura organizacional",
         request=CultureSerializer,
         responses={
             200: CultureSerializer,
             400: {"message": "Dados inválidos"},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
             404: {"message": "Registro não encontrado"},
             500: {"message": "Erro interno no servidor"},
         }
@@ -106,10 +125,12 @@ class CultureDetailView(APIView):
             )
 
     @extend_schema(
-        tags=["Culture"],
+        tags=["Cultura"],
         summary="Excluir registro de cultura organizacional",
         responses={
             204: {"message": "Registro removido com sucesso"},
+            401: {"message": "Unauthorized - Usuário não autenticado"},
+            403: {"message": "Forbidden - Usuário não possui permissão"},
             404: {"message": "Registro não encontrado"},
             500: {"message": "Erro interno no servidor"},
         }
