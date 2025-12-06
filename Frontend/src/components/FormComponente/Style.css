@@ -1,0 +1,32 @@
+
+.form-container {
+    background-color: #EBEAE3;
+    padding: 25px;
+    border-radius: 15px;
+    width: 100%;    
+    max-width: 500px;  
+}
+
+.textFinalForm p{
+    text-align: center;
+    color: #69727F;
+    font-size: 16px;
+}
+
+.labelForm{
+    color: #051923;
+    font-size: 16px;
+}
+.inputForm input{
+    background-color: #FFFF;
+    color: #69727F;
+}
+.inputForm select{
+    background-color: #FFFF;
+    color: #69727F;
+}
+
+.textareaForm{
+    background-color: #FFFF;
+    color: #69727F;
+}

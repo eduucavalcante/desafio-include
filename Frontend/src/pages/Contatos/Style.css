@@ -1,0 +1,109 @@
+.containerContatos{
+    background-color: #051923;
+    background-size: cover;
+    background-position: center;
+    padding-bottom: 80px;
+    padding-top: 80px;
+    min-height: 80vh;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    position: relative;
+
+}
+
+.containerInformacoes h1{
+    font-size: 23px;
+    color: white;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.containerInformacoes p{
+    font-size: 23px;
+    color: white;
+    
+}
+
+.containerContatosFormulario{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    margin-right: 30px;
+    margin-left: 30px;
+    gap: 25px;
+    align-items: stretch; 
+}
+.containerTitleContatos{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.containerTitleContatos h1{
+    color: white;
+    font-size: 40px;
+    font-weight: 700;
+    margin-left: 40px;
+    margin-right: 40px;
+    text-align: center;
+}
+.containerTitleContatos p{
+    color: white;
+    font-size: 23px;
+    text-align: center;
+}
+.containerAtendimento{
+    max-width: 500px;
+    padding: 5px;
+    width: 100%;
+    border-radius: 15px;
+    background-color: #EBEAE3; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.boxWhatss{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #00AA44;
+    border-radius: 10px;
+    
+}
+
+.containerAtendimento p,
+.containerAtendimento a,
+.containerAtendimento h1{
+    margin: 5px;
+    margin-left: 20px;
+}
+.containerAtendimento h1{
+    padding-top: 10px;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.containerAtendimento a{
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.containerAtendimento p{
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+    .containerContatosFormulario {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .containerContatosFormulario > div:first-child {
+        width: 100%;
+        max-width: 500px;
+        justify-content: flex-start; 
+    }
+
+    .containerAtendimento {
+        margin-top: 20px;
+    }
+}

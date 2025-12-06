@@ -1,9 +1,10 @@
+import CardEquipe from "../../components/CardEquipe";
+import FooterUser from "../../components/Footer";
+
 function TestPage(){
     return(
-        <div>
-            <h1>
-                olaa tela de testes de componentes
-            </h1>
+        <div>   
+            <FooterUser/>
         </div>
     )
 }

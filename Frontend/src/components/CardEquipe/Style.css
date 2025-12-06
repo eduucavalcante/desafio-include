@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.containerDiretoria{
+    background: 
+        linear-gradient(180deg, rgba(18, 50, 71, 0.61) 0%, rgba(18, 50, 71, 1) 100%),
+        url('../../assets/diretoriaProjeto.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    height: 320px;
+    width: 270px;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(31, 30, 30, 0.445);
+    align-items: end;
+    cursor: pointer;
+    text-decoration: none; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+
+.containerDiretoria:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(31, 30, 30, 0.6);
+}
+
+.containerDiretoriaText{
+    width: 70%;
+    font-size: 19px;
+    font-weight: 700;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    object-fit: cover;
+    color: #ffff;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2; 
+    transition: all 0.3s ease; 
+}
+
+.containerDiretoriaText::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 8px;
+    z-index: -1;
+    backdrop-filter: blur(2px);
+}
+
+@media (max-width: 1024px) {
+    .containerDiretoria {
+        width: 240px;
+        height: 300px;
+    }
+    
+    .containerDiretoriaText {
+        font-size: 18px;
+        margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .containerDiretoria {
+        width: 220px;
+        height: 280px;
+        margin: 0 auto; 
+    }
+    
+    .containerDiretoriaText {
+        font-size: 17px;
+        margin-bottom: 20px;
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .containerDiretoria {
+        width: 200px;
+        height: 250px;
+    }
+    
+    .containerDiretoriaText {
+        font-size: 16px;
+        margin-bottom: 15px;
+        width: 85%;
+    }
+    
+    .containerDiretoriaText::before {
+        backdrop-filter: none; 
+    }
+}
+
+@media (max-width: 360px) {
+    .containerDiretoria {
+        width: 180px;
+        height: 230px;
+    }
+    
+    .containerDiretoriaText {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+}
+
+
+.containerDiretoria.flex-item {
+    flex-shrink: 0;
+}
+
+
+@media (max-width: 320px) {
+    .containerDiretoria.full-width-mobile {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+}

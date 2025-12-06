@@ -1,0 +1,122 @@
+.footerContainer {
+  width: 100%;
+  background: #0f2e46;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: white;
+}
+
+.footerColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.footerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.leftRow {
+  display: flex;
+  gap: 30px;
+}
+
+.leftItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leftItem h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+
+.footerBlock h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.iconRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconRow p {
+  margin: 0;
+}
+
+.centerCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footerLogo {
+  width: 150px;
+  margin-bottom: 8px;
+}
+
+.copyText {
+  font-size: 12px;
+  max-width: 260px;
+}
+
+.rightCol {
+  align-items: flex-end;
+}
+
+.footerNav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+}
+
+.footerNav a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footerNav a:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+  .footerContainer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .rightCol,
+  .leftCol {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footerNav {
+    text-align: center;
+  }
+
+  .iconRow {
+    justify-content: center;
+  }
+.centerCol {
+    display: none;
+  }
+}
+
