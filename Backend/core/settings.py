@@ -10,7 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os, tempfile, atexit
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6epzwk!g%kg-pb(^n+3a0f4-5e&=q4agmi1u4z28r39mev6dz9'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +44,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Storage de imagens
+    'cloudinary',
+    'cloudinary_storage',
+
+    # Apps do sistema
+    'accounts',
+    'services',
+    'authentication',
+    'team',
+    'projects',
+    'contacts',
+    'about',
+    'gallery',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +69,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
 ROOT_URLCONF = 'core.urls'
 
@@ -68,17 +99,91 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+AUTH_USER_MODEL = 'accounts.User'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+if os.getenv("ENV") == "prod":
+    try:
+        ca_content = os.getenv('DB_CA')
+        temp_ca_file = tempfile.NamedTemporaryFile(delete=False)
+        temp_ca_file.write(ca_content.encode('utf-8'))
+        temp_ca_file.close()
 
+        TEMP_CA_FILE_PATH = temp_ca_file.name
+
+        def cleanup_ca_file():
+            if TEMP_CA_FILE_PATH and os.path.exists(TEMP_CA_FILE_PATH):
+                try:
+                    os.remove(TEMP_CA_FILE_PATH)
+                except Exception as e:
+                    print(f"Falha ao remover arquivo CA temporário: {e}")
+
+        atexit.register(cleanup_ca_file)
+
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.getenv('DB_NAME'),
+                'USER': os.getenv('DB_USER'),
+                'PASSWORD': os.getenv('DB_PASSWORD'),
+                'HOST': os.getenv('DB_HOST'),
+                'PORT': os.getenv('DB_PORT'),
+                'OPTIONS': {
+                    'charset': 'utf8mb4',
+                    'ssl': {
+                        'rejectUnauthorized': True,
+                        'ca': TEMP_CA_FILE_PATH
+                    }
+                }
+            }
+        }
+    except Exception as e:
+        print(f"ERRO CRÍTICO: Falha ao configurar CA temporário para DB: {e}")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.getenv('DB_NAME_DEV'),
+                'USER': os.getenv('DB_USER_DEV'),
+                'PASSWORD': os.getenv('DB_PASSWORD_DEV'),
+                'HOST': os.getenv('DB_HOST_DEV'),
+                'PORT': os.getenv('DB_PORT_DEV'),
+                'OPTIONS': {
+                    'charset': 'utf8mb4',
+                }
+            }
+        }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('DB_NAME_DEV'),
+            'USER': os.getenv('DB_USER_DEV'),
+            'PASSWORD': os.getenv('DB_PASSWORD_DEV'),
+            'HOST': os.getenv('DB_HOST_DEV'),
+            'PORT': os.getenv('DB_PORT_DEV'),
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+            }
+        }
+    }
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+)
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Vale J API',  # Título da sua API
+    'DESCRIPTION': 'API para painel administrativo do site institucional da Vale J, desafio final do trainee da Include Jr.',  # Descrição opcional
+    'VERSION': '1.0.0',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

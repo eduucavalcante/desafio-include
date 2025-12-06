@@ -1,0 +1,13 @@
+from django.db import models
+
+class Contact(models.Model):
+    title = models.CharField(max_length=255)
+    contact = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        db_table = "contatos"
+        verbose_name = "Contato"
+        verbose_name_plural = "Contatos"

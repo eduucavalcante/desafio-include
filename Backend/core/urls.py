@@ -15,8 +15,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/', include('services.urls')),
+    path('api/v1/', include('authentication.urls')),
+    path('api/v1/', include('team.urls')),
+    path('api/v1/', include('projects.urls')),
+    path('api/v1/', include('accounts.urls')),
+    path('api/v1/', include('contacts.urls')),
+    path('api/v1/', include('about.urls')),
+    path('api/v1/about/', include('about.urls')),
+    path('api/v1/gallery/', include('gallery.urls')),
+    path('api/v1/', include('culture.urls')),
+    path('api/v1/', include('advantages.urls')),
+
+
+    # Swagger
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
+
