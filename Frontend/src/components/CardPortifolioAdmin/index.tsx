@@ -5,43 +5,42 @@ import { FaRegEdit } from "react-icons/fa";
 import Button from "../Button";
 import "./Style.css"
 
-
-interface mainCardProtifolio{
-    title: string,
-    description: string,
+interface mainCardProtifolio {
+    title: string;
+    description: string;
+    onEdit: () => void;
 }
 
-
-function CardPortifolioAdmin({title, description}: mainCardProtifolio){
-    return(
+function CardPortifolioAdmin({ title, description, onEdit }: mainCardProtifolio) {
+    return (
         <div className="cardPortifolios">
             <div className="imagemPortifolio">
                 <img src={fotoCard} alt="Análise de Dados"/>
             </div>
             <div className="containerTextPortifolio">
-                <h1>
-                    {title}
-                </h1>
-                <p>
-                    {description}
-                </p>
+                <h1>{title}</h1>
+                <p>{description}</p>
             </div>
+
             <div className="buttonContainerPortifolio">
                 <Button
                     text="Editar"
                     icon={FaRegEdit}
                     color="#0051FF"
                     colorIcon="#FFF"
+                    onClick={onEdit}
                 />
+
                 <Button
-                    text="Excluir" 
+                    text="Excluir"
                     icon={FaRegTrashAlt}
                     color="#FF0000"
                     colorIcon="#FFF"
                 />
             </div>
         </div>
-    )
+    );
 }
+
 
 export default CardPortifolioAdmin;
