@@ -1,17 +1,25 @@
 import type { IconType } from "react-icons"
 import "./Style.css"
+import { useNavigate } from "react-router-dom"
 
 interface mainCardAdmin{
     title: string,
     description: string,
     icon: IconType,
     color: string,
-    cardColor: string
+    cardColor: string,
+    route: string
 }
 
-function CardAdminPanel({title, description, icon: Icon, color, cardColor}: mainCardAdmin){
+function CardAdminPanel({title, description, icon: Icon, color, cardColor, route}: mainCardAdmin){
+
+    const navigation = useNavigate();
+
+    const handleClick = () => {
+        navigation(route);
+    };
     return(
-        <a href="#" className="card-admin-link">
+        <div className="card-admin-link" onClick={handleClick} style={{ cursor: 'pointer' }}>
             <div className="containerCardAdmin">
                 <div className="containerTitleCardAdmin">
                     <div className="containerIcon" style={{background: cardColor}}>
@@ -29,7 +37,7 @@ function CardAdminPanel({title, description, icon: Icon, color, cardColor}: main
                     </p>
                 </div>      
             </div>
-        </a>
+        </div>
     )
 }
 

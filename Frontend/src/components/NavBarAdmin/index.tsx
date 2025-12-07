@@ -45,8 +45,6 @@ function AdminNavbar() {
         { label: "Portfolio", icon: HiCollection, onClick: () => navigation("/PortifolioAdmin") },
         { label: "Nosso Time", icon: HiUsers, onClick: () => navigation("/NossoTimeAdmin")},
         { label: "Conteúdo Institucional", icon: HiDocumentText, onClick: () => navigation("/ConteudoInstitucional")},
-        { label: "Usuário e Acesso", icon: HiLockClosed, onClick: () => navigation("/HomeAdmin")},
-        { label: "Histórico / Auditoria", icon: HiClock, onClick: () => navigation("/HomeAdmin")},
     ];
 
     return (
@@ -70,7 +68,7 @@ function AdminNavbar() {
                             label={
                                 <Avatar
                                     alt="User settings"
-                                    img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                    img=""
                                     rounded
                                     size="lg"
                                     className="cursor-pointer"
@@ -84,7 +82,7 @@ function AdminNavbar() {
                             <DropdownItem icon={HiCog} className="text-gray-700 hover:bg-gray-100">Configurações</DropdownItem>
                             <DropdownItem icon={HiUserGroup} className="text-gray-700 hover:bg-gray-100">Meu Perfil</DropdownItem>
                             <DropdownDivider />
-                            <DropdownItem icon={HiLogout} className="text-red-600 hover:bg-red-50">Sair</DropdownItem>
+                            <DropdownItem icon={HiLogout} onClick={()=> navigation("/")}className="text-red-600 hover:bg-red-50">Sair</DropdownItem>
                         </Dropdown>
                     </div>
                 </div>
