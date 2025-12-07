@@ -1,0 +1,103 @@
+
+.containerProjetosPortfolio{
+    /* background-color: #051923; */
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+    box-shadow: 0 4px 10px rgba(29, 28, 28, 0.35);
+}
+
+.conteudoProjetos{
+    width: 80%;
+}
+
+.titleProjetosPortifolio{
+    margin-top: 40px;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    color: white !important;
+}
+
+.barra-laranja {
+    position: relative;
+    display: inline-block;
+    background-image: linear-gradient(to bottom, transparent 75%, #DA5126 75%);
+    background-repeat: no-repeat;
+    background-size: 80% 25px;
+    border-radius: 2px;
+    background-position: bottom; 
+    padding-bottom: 4px;
+}
+
+.card {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.custom-carousel .p-carousel-container {
+    padding: 10px 0 !important;
+}
+
+.custom-carousel .p-carousel-content {
+    padding: 0 !important;
+}
+
+.custom-carousel .p-carousel-items-container {
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+.custom-carousel .p-carousel-item {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    padding: 10px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.carousel-item-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.p-carousel-content {
+    padding: 0 !important;
+}
+
+.p-carousel-container {
+    margin: 0 !important;
+}
+
+
+@media (max-width: 768px) {
+    .containerProjetos {
+        padding: 20px 0;
+        min-height: auto;
+    }
+
+    .titleProjetos {
+        margin-top: 20px;
+        font-size: 32px;
+    }
+
+    .barra-laranja {
+        background-size: 70% 20px;
+    }
+
+    .card {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+    
+    .custom-carousel .p-carousel-item {
+        padding: 5px;
+    }
+    /* ...fim MQs... */
+}

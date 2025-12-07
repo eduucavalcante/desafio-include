@@ -13,7 +13,7 @@ function ConteudoInstucional() {
         texto: "Somos uma empresa júnior de consultoria formada por estudantes comprometidos com a excelência.",
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 

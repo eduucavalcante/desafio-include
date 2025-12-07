@@ -14,6 +14,7 @@ import {
   FaLock,
   FaEye
 } from "react-icons/fa";
+import { Route } from "react-router-dom";
 
 function HomeAdmin() {
     const cardUsers = [
@@ -23,7 +24,8 @@ function HomeAdmin() {
             icon: FaPhoneAlt, 
             description: "Gerencie e-mails, telefones, endereços e redes sociais.",
             color: "#ffffff",
-            cardColor: "#2B7FFF"
+            cardColor: "#2B7FFF",
+            route: "/ContatosAdmin"
         },
         {
             id: 2, 
@@ -31,7 +33,8 @@ function HomeAdmin() {
             icon: FaUsers, 
             description: "Gerencie membros, cargos e informações da equipe.",
             color: "#ffffff",
-            cardColor: "#AD46FF"
+            cardColor: "#AD46FF",
+            route: "/NossoTimeAdmin"
         },
         {
             id: 3, 
@@ -39,7 +42,8 @@ function HomeAdmin() {
             icon: FaProjectDiagram, 
             description: "Adicione e edite serviços oferecidos pela empresa.",
             color: "#ffffff",
-            cardColor: "#00C951"
+            cardColor: "#00C951",
+            route: "/PortifolioHome"
         },
         {
             id: 4, 
@@ -47,24 +51,10 @@ function HomeAdmin() {
             icon: FaFileAlt, 
             description: "Edite Missão, visão, valores e história da empresa.",
             color: "#ffffff",
-            cardColor: "#FF6900"
+            cardColor: "#FF6900",
+            route: "/ConteudoInstituciona"
         },
-        {
-            id: 5, 
-            title: "Usuário e Acesso",
-            icon: FaUserCog, 
-            description: "Controle permissões e gerencie usuários do sistema.",
-            color: "#ffffff",
-            cardColor: "#FB2C36"
-        },
-        {
-            id: 6, 
-            title: "Histórico / Auditoria",
-            icon: FaHistory, 
-            description: "Visualize todas as ações realizadas no sistema.",
-            color: "#ffffff",
-            cardColor: "#615FFF"
-        },
+
     ];
     
     return(
@@ -82,6 +72,7 @@ function HomeAdmin() {
                                 key={card.id}
                                 title={card.title}
                                 icon={card.icon}
+                                route={card.route}
                                 description={card.description}
                                 color={card.color}
                                 cardColor={card.cardColor}

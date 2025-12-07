@@ -8,6 +8,7 @@ import PortifolioAdmin from "../pages/PortifolioAdmin"
 import NossoTimeAdmin from "../pages/NossoTimeAdmin"
 import ContatosInstituAdmin from "../pages/ContatosInstitucionaisAdmin"
 import ConteuInstitucionalPage from "../pages/ConteuInsitucional"
+import PortifolioHome from "../pages/Portifolio"
 
 function AppRouters(){
     return(       
@@ -21,6 +22,7 @@ function AppRouters(){
             <Route path="/NossoTimeAdmin" element={<NossoTimeAdmin/>}/>
             <Route path="/ContatosAdmin" element={<ContatosInstituAdmin/>}/>
             <Route path="/ConteudoInstitucional" element={<ConteuInstitucionalPage/>}/>
+            <Route path="/PortifolioHome" element={<PortifolioHome/>}/>
         </Routes>
     )
 }

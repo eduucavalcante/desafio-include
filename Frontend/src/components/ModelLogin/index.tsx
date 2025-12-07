@@ -3,6 +3,7 @@
 import { Button, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { FaUserCircle } from 'react-icons/fa';
+import { loginAdmin } from '../../api/auth'; 
 
 interface MoldaLoginProps {
   show: boolean;
@@ -11,25 +12,39 @@ interface MoldaLoginProps {
 }
 
 function MoldaLogin({ show, onClose, onLoginSuccess }: MoldaLoginProps) { 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleClose = () => {
-    setUsername("");
+    setError(null);
+    setEmail(""); 
     setPassword("");
     onClose();
   };
   
-  const handleLogin = (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Tentativa de Login Admin:", username, password);
-    
-    setTimeout(() => {
-        if (onLoginSuccess) {
-            onLoginSuccess();
-        }
-        handleClose();
-    }, 1000);
+    setLoading(true);
+    setError(null);
+
+    try {
+
+      const data = await loginAdmin({ email, password });
+      
+
+      if (onLoginSuccess) {
+          onLoginSuccess();
+      }
+      handleClose();
+
+    } catch (err) {
+      setError((err as Error).message);
+
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,10 +58,10 @@ function MoldaLogin({ show, onClose, onLoginSuccess }: MoldaLoginProps) {
     >
       <ModalHeader 
         // className="absolute top-4 right-4 !p-0"
-        // theme={{ close: { 
-        //   base: "ml-auto inline-flex items-center rounded-md bg-red-500 hover:bg-red-600 p-2 text-sm text-white",
-        //   icon: "h-5 w-5 !text-white"
-        // }}}
+        theme={{ close: { 
+          base: "ml-auto inline-flex items-center rounded-md  hover:bg-red-600 p-2 text-sm text-white",
+          icon: "h-5 w-5 !text-white"
+        }}}
       />
       
       <ModalBody className="pb-8 pt-4">
@@ -61,12 +76,13 @@ function MoldaLogin({ show, onClose, onLoginSuccess }: MoldaLoginProps) {
           </h3>
           
           <TextInput
-            id="username"
-            placeholder="Usuario"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="email" 
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className="w-full"
+            disabled={loading}
             theme={{
               field: {
                 input: {
@@ -81,12 +97,13 @@ function MoldaLogin({ show, onClose, onLoginSuccess }: MoldaLoginProps) {
 
           <TextInput
             id="password"
-            placeholder="Senha"
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             className="w-full"
+            disabled={loading}
             theme={{
               field: {
                 input: {
@@ -99,21 +116,29 @@ function MoldaLogin({ show, onClose, onLoginSuccess }: MoldaLoginProps) {
             }}
           />
           
-          {/* <div className="w-full flex justify-start">
+
+          {error && (
+            <p className="text-red-500 text-sm w-full text-center">
+              {error}
+            </p>
+          )}
+          
+          <div className="w-full flex justify-start">
             <a 
               href="#" 
               className="text-sm text-blue-600 hover:underline"
             >
               Esqueceu a senha?
             </a>
-          </div> */}
+          </div>
 
           <div className="w-full">
             <Button 
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
+              disabled={loading}
             >
-              Login
+              {loading ? 'Aguarde...' : 'Login'}
             </Button>
           </div>
           
