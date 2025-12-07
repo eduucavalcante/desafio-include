@@ -1,80 +1,132 @@
+import React, { useState } from "react";
 
+interface ContatosInforAdminProps {
+  editable: boolean;
+  onSave: (data: ContatoFormData) => void;
+  onCancel: () => void;
+}
 
-function ContatosInforAdmin() {
+interface ContatoFormData {
+  email: string;
+  whatsapp: string;
+  endereco: string;
+  facebook: string;
+  instagram: string;
+  linkedin: string;
+}
+
+function ContatosInforAdmin({ editable, onSave, onCancel }: ContatosInforAdminProps) {
+
+    const [form, setForm] = useState({
+        email: "contato@valejr.com.br",
+        whatsapp: "+55 85 99999-9999",
+        endereco: "Av. UFC RUSSAS",
+        facebook: "facebook.com/valejr",
+        instagram: "@valejr",
+        linkedin: "linkedin.com/company/valejr",
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
     return (
         <div className="w-full p-4 md:p-6">
 
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 md:gap-0">
-                <h1 className="text-xl font-semibold text-gray-800 order-1 md:order-none">
-                    Contatos Institucionais
-                </h1>
-            </div>
+            {editable && (
+                <div className="flex justify-end gap-3 mb-4">
+                    <button
+                        onClick={() => onCancel()}
+                        className="px-4 py-2 rounded-lg bg-gray-300 text-gray-800"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        onClick={() => onSave(form)}
+                        className="px-4 py-2 rounded-lg bg-green-600 text-white"
+                    >
+                        Salvar
+                    </button>
+                </div>
+            )}
 
             <div className="bg-white rounded-2xl shadow p-4 md:p-6">
+                
                 <div className="mb-5">
-                    <label className="block mb-1 text-sm font-semibold text-gray-700">
-                        E-mail Institucional
-                    </label>
+                    <label className="block mb-1 font-semibold text-gray-700">E-mail Institucional</label>
                     <input
+                        name="email"
                         type="text"
-                        disabled
-                        value="contato@valejr.com.br"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3 text-gray-700"
+                        value={form.email}
+                        onChange={handleChange}
+                        disabled={!editable}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
                     />
                 </div>
 
                 <div className="mb-5">
-                    <label className="block mb-1 text-sm font-semibold text-gray-700">WhatsApp</label>
+                    <label className="block mb-1 font-semibold text-gray-700">WhatsApp</label>
                     <input
+                        name="whatsapp"
                         type="text"
-                        disabled
-                        value="+55 85 99999-9999"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3 text-gray-700"
+                        value={form.whatsapp}
+                        onChange={handleChange}
+                        disabled={!editable}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
                     />
                 </div>
 
                 <div className="mb-8">
-                    <label className="block mb-1 text-sm font-semibold text-gray-700">Endereço</label>
+                    <label className="block mb-1 font-semibold text-gray-700">Endereço</label>
                     <input
+                        name="endereco"
                         type="text"
-                        disabled
-                        value="Av. UFC RUSSAS"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3 text-gray-700"
+                        value={form.endereco}
+                        onChange={handleChange}
+                        disabled={!editable}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
                     />
                 </div>
 
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Redes Sociais</h2>
 
+
                 <div className="mb-5">
-                    <label className="block mb-1 text-sm text-gray-700">Facebook</label>
+                    <label className="block mb-1 text-gray-700">Facebook</label>
                     <input
-                        type="text"
-                        disabled
-                        value="facebook.com/valejr"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3 text-gray-700"
+                        name="facebook"
+                        value={form.facebook}
+                        onChange={handleChange}
+                        disabled={!editable}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
                     />
                 </div>
 
                 <div className="mb-5">
-                    <label className="block mb-1 text-sm text-gray-700">Instagram</label>
+                    <label className="block mb-1 text-gray-700">Instagram</label>
                     <input
-                        type="text"
-                        disabled
-                        value="@valejr"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3 text-gray-700"
+                        name="instagram"
+                        value={form.instagram}
+                        onChange={handleChange}
+                        disabled={!editable}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
                     />
                 </div>
 
                 <div className="mb-5">
-                    <label className="block mb-1 text-sm text-gray-700">LinkedIn</label>
+                    <label className="block mb-1 text-gray-700">LinkedIn</label>
                     <input
-                        type="text"
-                        disabled
-                        value="linkedin.com/company/valejr"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3 text-gray-700"
+                        name="linkedin"
+                        value={form.linkedin}
+                        onChange={handleChange}
+                        disabled={!editable}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
                     />
                 </div>
+
             </div>
+
         </div>
     );
 }

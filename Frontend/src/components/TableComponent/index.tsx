@@ -15,13 +15,13 @@ interface User {
 }
 
 interface TableComponentProps {
-
   user?: User;
-
   users?: User[];
+  onEdit?: (user: User) => void;
+  onDelete?: (user: User) => void;
 }
 
-function TableComponent({ user, users }: TableComponentProps) {
+function TableComponent({ user, users, onEdit, onDelete }: TableComponentProps) {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [openModal, setOpenModal] = useState(false);
 
@@ -42,7 +42,7 @@ function TableComponent({ user, users }: TableComponentProps) {
 
   return (
     <>
-
+      {/* Tabela Desktop */}
       <div className="hidden md:block overflow-x-auto rounded-lg border border-red-200 dark:border-gray-700 containerTable">
         <Table hoverable>
           <TableHead>
@@ -54,50 +54,49 @@ function TableComponent({ user, users }: TableComponentProps) {
               <TableHeadCell className="w-48 text-center">Ações</TableHeadCell>
             </TableRow>
           </TableHead>
-          
+
           <TableBody className="divide-y containerText">
             {userList.map((user, index) => (
               <TableRow key={user.id || index} className="bg-black">
                 <TableCell>
                   <div className="flex items-center justify-center">
-                    <img 
-                      src={user.avatarUrl} 
+                    <img
+                      src={user.avatarUrl}
                       alt={user.name}
                       className="w-10 h-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
                     />
                   </div>
                 </TableCell>
-                
-                <TableCell className="font-medium">
-                  {user.name}
-                </TableCell>
-                
-                <TableCell className="text-gray-600 dark:text-gray-300">
-                  {user.position}
-                </TableCell>
-                
+
+                <TableCell className="font-medium">{user.name}</TableCell>
+
+                <TableCell className="text-gray-600 dark:text-gray-300">{user.position}</TableCell>
+
                 <TableCell>
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    user.status === 'ativo' 
-                      ? 'bg-green-100 dark:text-green-800' 
-                      : 'bg-red-100'
-                  }`}>
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      user.status === "ativo"
+                        ? "bg-green-100 dark:text-green-800"
+                        : "bg-red-100"
+                    }`}
+                  >
                     {formatStatus(user.status)}
                   </span>
                 </TableCell>
-                
+
                 <TableCell>
                   <div className="flex justify-center space-x-3">
-                    <button 
+                    <button
+                      onClick={() => onEdit && onEdit(user)}
                       className="flex items-center space-x-1 px-3 py-1.5 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                      title="Editar"
                     >
                       <FaEdit className="w-4 h-4" />
                       <span>Editar</span>
                     </button>
-                    <button 
+
+                    <button
+                      onClick={() => onDelete && onDelete(user)}
                       className="flex items-center space-x-1 px-3 py-1.5 text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                      title="Excluir"
                     >
                       <FaTrashAlt className="w-4 h-4" />
                       <span>Excluir</span>
@@ -110,52 +109,60 @@ function TableComponent({ user, users }: TableComponentProps) {
         </Table>
       </div>
 
-      {/* Cards para Mobile */}
+      {/* Cards Mobile */}
       <div className="md:hidden space-y-4">
         {userList.map((user, index) => (
           <div key={user.id || index} className="bg-white rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
             <div className="flex items-start justify-between">
               <div className="flex items-center space-x-3">
-                <img 
-                  src={user.avatarUrl} 
+                <img
+                  src={user.avatarUrl}
                   alt={user.name}
                   className="w-12 h-12 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
                 />
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-black">{user.name}</h3>
                   <p className="text-sm text-gray-600 dark:text-black-300">{user.position}</p>
-                  <span className={`inline-flex items-center mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                    user.status === 'ativo' 
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                  }`}>
-                    <FaCircle className={`w-2 h-2 mr-1 ${user.status === 'ativo' ? 'text-green-500' : 'text-red-500'}`} />
+
+                  <span
+                    className={`inline-flex items-center mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                      user.status === "ativo"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                        : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                    }`}
+                  >
+                    <FaCircle
+                      className={`w-2 h-2 mr-1 ${
+                        user.status === "ativo" ? "text-green-500" : "text-red-500"
+                      }`}
+                    />
                     {formatStatus(user.status)}
                   </span>
                 </div>
               </div>
-              
-              <button 
+
+              <button
                 onClick={() => handleOpenModal(user)}
                 className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-                title="Mais informações"
               >
                 <FaEllipsisH className="w-5 h-5" />
               </button>
             </div>
-            
+
             <div className="mt-4 flex justify-between border-t pt-4 dark:border-gray-700">
-              <button 
+              <button
+                onClick={() => onEdit && onEdit(user)}
                 className="flex-1 flex items-center justify-center space-x-2 px-3 py-2 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                title="Editar"
               >
                 <FaEdit className="w-4 h-4" />
                 <span>Editar</span>
               </button>
+
               <div className="w-4"></div>
-              <button 
+
+              <button
+                onClick={() => onDelete && onDelete(user)}
                 className="flex-1 flex items-center justify-center space-x-2 px-3 py-2 text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                title="Excluir"
               >
                 <FaTrashAlt className="w-4 h-4" />
                 <span>Excluir</span>
@@ -165,38 +172,41 @@ function TableComponent({ user, users }: TableComponentProps) {
         ))}
       </div>
 
-
+      {/* Modal */}
       <Modal show={openModal} onClose={() => setOpenModal(false)} size="md" className="custom-modal-bg">
-        <ModalHeader >
-            <h1 className="text-gray-900 dark:text-black">
-                Detalhes do Usuário
-            </h1>
+        <ModalHeader>
+          <h1 className="text-gray-900 dark:text-black">Detalhes do Usuário</h1>
         </ModalHeader>
+
         <ModalBody>
           {selectedUser && (
             <div className="space-y-6">
               <div className="flex flex-col items-center">
-                <img 
-                  src={selectedUser.avatarUrl} 
+                <img
+                  src={selectedUser.avatarUrl}
                   alt={selectedUser.name}
                   className="w-24 h-24 rounded-full object-cover border-4 border-gray-200 dark:border-black-700 mb-4"
                 />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-black text-center">
-                  {selectedUser.name}
-                </h3>
-                <p className="text-black-600 dark:text-black text-center">
-                  {selectedUser.position}
-                </p>
-                <span className={`inline-flex items-center mt-2 px-3 py-1 rounded-full text-sm font-medium ${
-                  selectedUser.status === 'ativo' 
-                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                    : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                }`}>
-                  <FaCircle className={`w-2 h-2 mr-2 ${selectedUser.status === 'ativo' ? 'text-green-500' : 'text-red-500'}`} />
+                <h3 className="text-xl font-bold text-gray-900 dark:text-black text-center">{selectedUser.name}</h3>
+                <p className="text-black-600 dark:text-black text-center">{selectedUser.position}</p>
+
+                <span
+                  className={`inline-flex items-center mt-2 px-3 py-1 rounded-full text-sm font-medium ${
+                    selectedUser.status === "ativo"
+                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                      : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                  }`}
+                >
+                  <FaCircle
+                    className={`w-2 h-2 mr-2 ${
+                      selectedUser.status === "ativo" ? "text-green-500" : "text-red-500"
+                    }`}
+                  />
                   {formatStatus(selectedUser.status)}
                 </span>
               </div>
 
+              {/* Campos */}
               <div className="space-y-4">
                 <div className="flex items-start">
                   <FaUser className="w-5 h-5 text-gray-400 mr-3 mt-0.5" />
@@ -242,7 +252,11 @@ function TableComponent({ user, users }: TableComponentProps) {
                 {selectedUser.departamento && (
                   <div className="flex items-start">
                     <svg className="w-5 h-5 text-gray-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
+                      <path
+                        fillRule="evenodd"
+                        d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Departamento</p>
@@ -254,6 +268,7 @@ function TableComponent({ user, users }: TableComponentProps) {
             </div>
           )}
         </ModalBody>
+
         <ModalFooter className="flex justify-between">
           <button
             onClick={() => setOpenModal(false)}
@@ -261,14 +276,18 @@ function TableComponent({ user, users }: TableComponentProps) {
           >
             Fechar
           </button>
+
           <div className="flex space-x-2">
             <button
+              onClick={() => onEdit && selectedUser && onEdit(selectedUser)}
               className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
               <FaEdit className="w-4 h-4 inline mr-2" />
               Editar
             </button>
+
             <button
+              onClick={() => onDelete && selectedUser && onDelete(selectedUser)}
               className="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
               <FaTrashAlt className="w-4 h-4 inline mr-2" />
