@@ -27,7 +27,9 @@ npm install
 yarn install
 # ou
 pnpm install
+```
 ### 2. Rodar Projeto
+```bash
 npm run dev
 # ou use:
 # yarn dev
