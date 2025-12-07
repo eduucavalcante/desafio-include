@@ -20,8 +20,15 @@ Para executar este projeto localmente, você precisa ter o **Node.js** instalado
 Abra o terminal na pasta raiz do projeto e execute o comando para instalar todas as dependências:
 
 ```bash
+npm i
+# ou
 npm install
 # ou
 yarn install
 # ou
 pnpm install
+### 2. Rodar Projeto
+npm run dev
+# ou use:
+# yarn dev
+# pnpm dev
