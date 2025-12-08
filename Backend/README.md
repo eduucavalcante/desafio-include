@@ -107,17 +107,24 @@ A API estará disponível em:
 # 📦 Estrutura do Backend
 
 ```txt
-Backend/
-├── accounts            # App com models e views de usuários
-├── authentication      # App com lógica de login via JWT
-├── core                # Projeto Django (settings, urls, wsgi)
-├── projects            # App de projetos e portfólio de imagens
-├── services            # App de serviços
-├── team                # App de gestão dos membros da equipe
-├── .gitignore
-├── README.md
-├── manage.py
-└── requirements.txt
+├── Backend
+│   ├── about           # App com models e views de história e sobre EJ
+│   ├── accounts        # App com models e views de usuários
+│   ├── advantages      # App de diferenciais
+│   ├── authentication  # App com lógica de login via JWT
+│   ├── contacts        # App de contatos
+│   ├── core            # Projeto Django (settings, urls, wsgi)
+│   ├── culture         # App de cultura (missão, visão, valores)
+│   ├── gallery         # App de galeria de eventos e reconhecimentos
+│   ├── projects        # App de projetos e portfólio de imagens
+│   ├── services        # App de serviços
+│   ├── team            # App de gestão dos membros da equipe
+│   ├── .gitignore
+│   ├── Procfile
+│   ├── README.md
+│   ├── build.sh
+│   ├── manage.py
+│   └── requirements.txt
 ```
 
 ---

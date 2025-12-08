@@ -4,6 +4,10 @@ Repositório destinado ao desafio final trainee da Include Jr, empresa júnior (
 
 O projeto consiste em um site institucional para a EJ de engenharia civil Vale J, bem como um painel administrativo que gerencia o conteúdo do site.
 
+**Link do documento de requisitos:** https://docs.google.com/document/d/1_sot7o7HOJMpVuysi_wfwO-hlsun6VFhMfsl8T36JrI/edit?usp=sharing
+
+*[Verificar documentação da API aqui](./Docs%20API/)*
+
 ## Principais Tecnologias e Ferramentas Utilizadas
 
 **Front-end:**
