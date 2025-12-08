@@ -1,0 +1,2887 @@
+openapi: 3.0.3
+info:
+  title: Vale J API
+  version: 1.0.0
+  description: API para painel administrativo do site institucional da Vale J, desafio
+    final do trainee da Include Jr.
+paths:
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/about/enterprise/:
+    get:
+      operationId: v1_about_enterprise_list
+      summary: Listar registros de EJ
+      tags:
+      - Sobre
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enterprise'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há registros cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_about_enterprise_create
+      summary: Criar registro de EJ
+      tags:
+      - Sobre
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enterprise'
+          description: ''
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Já existe registro sobre a EJ cadastrado. Tente editá-la.
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/about/enterprise/{id}/:
+    put:
+      operationId: v1_about_enterprise_update
+      summary: Atualizar registro de EJ
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Sobre
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enterprise'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_about_enterprise_destroy
+      summary: Excluir registro de EJ
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Sobre
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Registro removido com sucesso
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/about/history/:
+    get:
+      operationId: v1_about_history_list
+      summary: Listar registros de história
+      tags:
+      - Sobre
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/History'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há registros cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_about_history_create
+      summary: Criar registro de história
+      tags:
+      - Sobre
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/History'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/History'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/History'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History'
+          description: ''
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Já existe uma história cadastrada. Tente editá-la.
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/about/history/{id}/:
+    put:
+      operationId: v1_about_history_update
+      summary: Atualizar registro de história
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Sobre
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/History'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/History'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/History'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_about_history_destroy
+      summary: Excluir registro de história
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Sobre
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Registro removido com sucesso
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/advantages/:
+    get:
+      operationId: v1_advantages_list
+      summary: Listar registros de diferenciais
+      tags:
+      - Diferenciais
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advantage'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há registros cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_advantages_create
+      summary: Criar registro de diferencial
+      tags:
+      - Diferenciais
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advantage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Advantage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Advantage'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advantage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/advantages/{id}/:
+    put:
+      operationId: v1_advantages_update
+      summary: Atualizar registro de diferencial
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Diferenciais
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advantage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Advantage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Advantage'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advantage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_advantages_destroy
+      summary: Excluir registro de diferencial
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Diferenciais
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Registro removido com sucesso
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/contacts/:
+    get:
+      operationId: v1_contacts_list
+      summary: Listar contatos
+      tags:
+      - Contatos
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há contatos cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_contacts_create
+      summary: Cadastrar contato
+      tags:
+      - Contatos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Contact'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/contacts/{id}/:
+    put:
+      operationId: v1_contacts_update
+      summary: Editar um contato
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Contatos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Contact'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Contact'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Contato não encontrado.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_contacts_destroy
+      summary: Remover um contato
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Contatos
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Contato removido com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Contato não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/culture/:
+    get:
+      operationId: v1_culture_list
+      summary: Listar registros de cultura organizacional
+      tags:
+      - Cultura
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Culture'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há registros cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_culture_create
+      summary: Criar registro de cultura organizacional
+      tags:
+      - Cultura
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Culture'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Culture'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Culture'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Culture'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/culture/{id}/:
+    put:
+      operationId: v1_culture_update
+      summary: Atualizar registro de cultura organizacional
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cultura
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Culture'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Culture'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Culture'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Culture'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_culture_destroy
+      summary: Excluir registro de cultura organizacional
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cultura
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Registro removido com sucesso
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Registro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/gallery/achievements/:
+    get:
+      operationId: v1_gallery_achievements_list
+      summary: Listar reconhecimentos
+      tags:
+      - Galeria
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Achievement'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há reconhecimentos cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_gallery_achievements_create
+      summary: Cadastrar reconhecimento
+      tags:
+      - Galeria
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Bad Request - Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno do servidor
+          description: ''
+  /api/v1/gallery/achievements/{id}/:
+    put:
+      operationId: v1_gallery_achievements_update
+      summary: Atualizar um reconhecimento
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Galeria
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Reconhecimento não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_gallery_achievements_destroy
+      summary: Deletar um reconhecimento
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Galeria
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Reconhecimento removido com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Reconhecimento não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/gallery/events/:
+    get:
+      operationId: v1_gallery_events_list
+      summary: Listar eventos
+      tags:
+      - Galeria
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há eventos cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_gallery_events_create
+      summary: Cadastrar evento
+      tags:
+      - Galeria
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Event'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Bad Request - Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno do servidor
+          description: ''
+  /api/v1/gallery/events/{id}/:
+    put:
+      operationId: v1_gallery_events_update
+      summary: Atualizar um evento
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Galeria
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Event'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Evento não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_gallery_events_destroy
+      summary: Deletar um evento
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Galeria
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Evento removido com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Evento não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/login/:
+    post:
+      operationId: v1_login_create
+      summary: Autenticar
+      tags:
+      - Autenticação
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Auth'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Auth'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Bad Request - Email ou senha ausentes / Formato de email
+                  inválido
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Senha incorreta
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno do servidor
+          description: ''
+  /api/v1/portfolio/:
+    get:
+      operationId: v1_portfolio_list
+      summary: Listar projetos do portfolio
+      tags:
+      - Portfólio
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há projetos cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_portfolio_create
+      summary: Adicionar projeto
+      tags:
+      - Portfólio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/portfolio/{id}/:
+    put:
+      operationId: v1_portfolio_update
+      summary: Editar um projeto
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Portfólio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Projeto não encontrado.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_portfolio_destroy
+      description: Ao remover um projeto, o sistema automaticamente remove (do banco
+        de dados e do storage) todas as imagens associadas a ele.
+      summary: Remover um projeto
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Portfólio
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Projeto removido com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Projeto não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/portfolio/{project_id}/images/:
+    get:
+      operationId: v1_portfolio_images_list
+      summary: Listar imagens de um projeto do portfolio
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Portfólio
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Portfolio'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Nenhuma imagem encontrada para o projeto
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_portfolio_images_create
+      summary: Adicionar imagem ao projeto do portfolio
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Portfólio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Portfolio'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Portfolio'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Portfolio'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/portfolio/{project_id}/images/{image_id}/:
+    put:
+      operationId: v1_portfolio_images_update
+      description: Substituir imagem ou atribuí-la a outro projeto
+      summary: Editar uma imagem de um projeto
+      parameters:
+      - in: path
+        name: image_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: project_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Portfólio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Portfolio'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Portfolio'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Portfolio'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Imagem não encontrada.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_portfolio_images_destroy
+      summary: Remover uma imagem de um projeto
+      parameters:
+      - in: path
+        name: image_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: project_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Portfólio
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Imagem removida com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Imagem não encontrada.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/services/:
+    get:
+      operationId: v1_services_list
+      summary: Listar todos os serviços
+      tags:
+      - Serviços
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há serviços cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_services_create
+      summary: Cadastrar serviço
+      tags:
+      - Serviços
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Bad Request - Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno do servidor
+          description: ''
+  /api/v1/services/{id}/:
+    put:
+      operationId: v1_services_update
+      summary: Atualizar um serviço
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Serviços
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Service'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Serviço não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_services_destroy
+      summary: Deletar um serviço
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Serviços
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Serviço removido com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Serviço não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/team/:
+    get:
+      operationId: v1_team_list
+      summary: Listar membros da equipe
+      tags:
+      - Equipe
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há membros cadastrados.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_team_create
+      summary: Adicionar membro
+      tags:
+      - Equipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Team'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Team'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/team/{id}/:
+    put:
+      operationId: v1_team_update
+      summary: Editar um membro
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Equipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Team'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Team'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Membro não encontrado.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_team_destroy
+      summary: Remover um membro
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Equipe
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Membro removido com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Membro não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/users/:
+    get:
+      operationId: v1_users_list
+      summary: Listar usuários
+      tags:
+      - Usuários
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Ainda não há usuários cadastrados
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    post:
+      operationId: v1_users_create
+      summary: Cadastrar usuário
+      tags:
+      - Usuários
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/users/{id}/:
+    put:
+      operationId: v1_users_update
+      summary: Editar um usuário
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Usuários
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo obrigatório não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Usuário não encontrado.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+    delete:
+      operationId: v1_users_destroy
+      summary: Remover um usuário
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Usuários
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                message: Usuário removido com sucesso.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Usuário não encontrado
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+  /api/v1/users/{id}/password/:
+    put:
+      operationId: v1_users_password_update
+      summary: Editar senha de um usuário
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Usuários
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                message: Dados inválidos ou campo senha não preenchido.
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                message: Unauthorized - Usuário não autenticado
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                message: Forbidden - Usuário não possui permissão
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                message: Usuário não encontrado.
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                message: Erro interno no servidor
+          description: ''
+components:
+  schemas:
+    Achievement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+          nullable: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 300
+      required:
+      - id
+      - title
+    Advantage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          nullable: true
+          maxLength: 255
+        description:
+          type: string
+      required:
+      - id
+    Auth:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - email
+      - password
+    AuthResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        permission:
+          type: string
+        role:
+          type: string
+      required:
+      - email
+      - name
+      - permission
+      - role
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        contact:
+          type: string
+          maxLength: 255
+      required:
+      - contact
+      - id
+      - title
+    Culture:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        mission:
+          type: string
+          nullable: true
+          maxLength: 150
+        vision:
+          type: string
+          nullable: true
+          maxLength: 150
+        values:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - id
+    Enterprise:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ej_text:
+          type: string
+      required:
+      - ej_text
+      - id
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+          nullable: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 300
+      required:
+      - id
+      - title
+    History:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        history_text:
+          type: string
+          nullable: true
+      required:
+      - id
+    PermissionEnum:
+      enum:
+      - Admin
+      - Membro
+      type: string
+      description: |-
+        * `Admin` - Admin
+        * `Membro` - Membro
+    Portfolio:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 300
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        project:
+          type: integer
+      required:
+      - created_at
+      - id
+      - project
+      - updated_at
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        area:
+          type: string
+          maxLength: 150
+        project_type:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        challenges:
+          type: string
+          nullable: true
+        results:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - area
+      - created_at
+      - description
+      - id
+      - name
+      - project_type
+      - updated_at
+    RoleEnum:
+      enum:
+      - presex
+      - marketing
+      - projetista
+      - gestao
+      type: string
+      description: |-
+        * `presex` - Presex
+        * `marketing` - Marketing
+        * `projetista` - Projetista
+        * `gestao` - Gestão de Pessoas
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        benefits:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 300
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - benefits
+      - created_at
+      - description
+      - id
+      - name
+      - updated_at
+    Team:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        role:
+          type: string
+          maxLength: 150
+        bio:
+          type: string
+        image:
+          type: string
+          nullable: true
+          maxLength: 300
+        social_links:
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - bio
+      - created_at
+      - id
+      - name
+      - role
+      - updated_at
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          title: Senha
+          maxLength: 128
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        permission:
+          $ref: '#/components/schemas/PermissionEnum'
+      required:
+      - email
+      - id
+      - name
+      - password
+      - permission
+      - role
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        permission:
+          $ref: '#/components/schemas/PermissionEnum'
+      required:
+      - email
+      - id
+      - name
+      - permission
+      - role
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
