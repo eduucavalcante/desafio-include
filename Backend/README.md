@@ -59,24 +59,39 @@ pip install -r requirements.txt
 Crie um arquivo `.env` na pasta **Backend/**:
 
 ```dotenv
-# Configurações para MySQL (atualizar quando migrar)
-MYSQL_DATABASE=nome_do_banco
-MYSQL_USER=root
-MYSQL_PASSWORD=senha
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
+ENV=prod
 
-# Seeding admin
+# Banco de dados de desenvolvimento (atualizar de acordo com seu banco local)
+DB_NAME_DEV=valej
+DB_USER_DEV=root
+DB_PASSWORD_DEV=
+DB_HOST_DEV=localhost
+DB_PORT_DEV=3306
+
+# Banco de dados em produção (solicitar o env para a equipe)
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+
+# Seeding de usuário admin
 ADMIN_NAME=Administrador
-ADMIN_EMAIL=email@exemplo.com
+ADMIN_EMAIL=email
 ADMIN_PASSWORD=senha
-ADMIN_ROLE=DIRETORIA
-ADMIN_PERMISSION=ADMIN
+ADMIN_ROLE=presex
+ADMIN_PERMISSION=admin
 
-# Setup para armazenamento de imagens
-CLOUDINARY_CLOUD_NAME=nome_da_cloud
-CLOUDINARY_API_KEY=api_key
-CLOUDINARY_API_SECRET=api_secret
+# Storage de imagens (solicitar o env para a equipe)
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+# Chave secreta do Django (solicitar o env para a equipe)
+DJANGO_SECRET_KEY=chave
+
+# Certificado para conexão com o banco em produção (solicitar o env para a equipe)
+DB_CA=
 ```
 
 > As credenciais **nunca** devem ser commitadas — por isso o arquivo `.env` está no `.gitignore`.
