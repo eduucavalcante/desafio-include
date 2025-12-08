@@ -59,7 +59,7 @@ pip install -r requirements.txt
 Crie um arquivo `.env` na pasta **Backend/**:
 
 ```dotenv
-ENV=prod
+ENV=prod    # Trocar para dev em caso de rodar o server localmente
 
 # Banco de dados de desenvolvimento (atualizar de acordo com seu banco local)
 DB_NAME_DEV=valej
